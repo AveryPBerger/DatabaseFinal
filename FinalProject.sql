@@ -84,16 +84,19 @@ CREATE TABLE Medication(
 	FOREIGN KEY (CamperID) REFERENCES Camper(CamperID)
 	)
 CREATE TABLE Councilor(
-	CouncilorID int PRIMARY KEY,
+	CouncilorID int PRIMARY KEY IDENTITY(1,1),
+	FirstName varchar(30) NOT NULL,
+	LastName varchar(30) NOT NULL,
 	[SIN] char(9) NOT NULL UNIQUE,
 	PhoneNumber char(10) NOT NULL UNIQUE,
 	StreetNumber smallint NOT NULL, 
 	City varchar(50) NOT NULL, 
 	ProvinceID int NOT NULL,
 	CountryID int NOT NULL,
-	FOREIGN KEY (CouncilorID) REFERENCES Camper(CamperID),
+	CabinID int NOT NULL,
 	FOREIGN KEY (ProvinceID) REFERENCES Province(ProvinceID),
-	FOREIGN KEY (CountryID) REFERENCES Country(CountryID)
+	FOREIGN KEY (CountryID) REFERENCES Country(CountryID),
+	FOREIGN KEY (CabinID) REFERENCES Cabin(CabinID)
 	)
 CREATE TABLE Paycheck(
 	PaycheckID int IDENTITY(1,1), 
@@ -190,29 +193,28 @@ VALUES
 ('Metformin', 11), ('Prednisone', 12), ('Diazepam', 13), ('Salbutamol', 14), ('Clindamycin', 15),
 ('Lisinopril', 16), ('Furosemide', 17), ('Aspirin', 18), ('Albuterol', 19), ('Gabapentin', 20);
 
-SELECT * FROM Councilor
-INSERT INTO Councilor (CouncilorID, SIN, PhoneNumber, StreetNumber, City, ProvinceID, CountryID)
+INSERT INTO Councilor (FirstName, LastName, [SIN], PhoneNumber, StreetNumber, City, ProvinceID, CountryID, CabinID) 
 VALUES
-(1, '123456789', '9876543210', 123, 'Toronto', 1, 1),
-(2, '234567890', '8765432109', 456, 'Vancouver', 3, 1),
-(3, '345678901', '7654321098', 789, 'Montreal', 2, 1),
-(4, '456789012', '6543210987', 321, 'Calgary', 4, 1),
-(5, '567890123', '5432109876', 654, 'Edmonton', 5, 1),
-(6, '678901234', '4321098765', 987, 'Ottawa', 1, 1),
-(7, '789012345', '3210987654', 111, 'Winnipeg', 5, 1),
-(8, '890123456', '2109876543', 222, 'Halifax', 7, 1),
-(9, '901234567', '1098765432', 333, 'Fredericton', 8, 1),
-(10, '012345678', '0987654321', 444, 'St. John', 9, 1),
-(11, '111111111', '9876543201', 555, 'Charlottetown', 10, 1),
-(12, '222222222', '8765432190', 666, 'Whitehorse', 12, 1),
-(13, '333333333', '7654321987', 777, 'Yellowknife', 11, 1),
-(14, '444444444', '6543219876', 888, 'Iqaluit', 13, 1),
-(15, '555555555', '5432198765', 999, 'Los Angeles', 14, 2),
-(16, '666666666', '4321987654', 101, 'New York', 17, 2),
-(17, '777777777', '3219876543', 202, 'Miami', 16, 2),
-(18, '888888888', '2109876432', 303, 'Seattle', 18, 2),
-(19, '999999999', '1098765431', 404, 'Boston', 19, 2),
-(20, '123123123', '0987654320', 505, 'Dallas', 15, 2);
+('John', 'Doe', '123456789', '1234567890', 101, 'Toronto', 1, 1, 1),           -- Ontario, Canada, Cabin PineWood
+('Jane', 'Smith', '987654321', '0987654321', 102, 'Vancouver', 2, 1, 2),       -- British Columbia, Canada, Cabin Evergreen
+('Michael', 'Johnson', '111223344', '1122334455', 103, 'Calgary', 4, 1, 3),    -- Alberta, Canada, Cabin Summit
+('Emily', 'Williams', '223344556', '2233445566', 104, 'Ottawa', 1, 1, 4),       -- Ontario, Canada, Cabin Wildwood
+('David', 'Brown', '334455667', '3344556677', 105, 'Montreal', 2, 1, 5),       -- Quebec, Canada, Cabin Timber
+('Sarah', 'Davis', '445566778', '4455667788', 106, 'Edmonton', 4, 1, 6),       -- Alberta, Canada, Cabin Cedar
+('William', 'Miller', '556677889', '5566778899', 107, 'Halifax', 7, 1, 7),      -- Nova Scotia, Canada, Cabin Ridge
+('Jessica', 'Wilson', '667788990', '6677889900', 108, 'Quebec City', 2, 1, 8),  -- Quebec, Canada, Cabin Lakeside
+('Andrew', 'Moore', '778899001', '7788990011', 109, 'Winnipeg', 5, 1, 9),      -- Manitoba, Canada, Cabin Trailhead
+('Olivia', 'Taylor', '889900112', '8899001122', 110, 'Victoria', 3, 1, 10),    -- British Columbia, Canada, Cabin Meadow
+('James', 'Anderson', '990011223', '9900112233', 111, 'Toronto', 1, 1, 11),    -- Ontario, Canada, Cabin Campfire
+('Isabella', 'Thomas', '100122334', '1001223344', 112, 'Vancouver', 2, 1, 12),  -- British Columbia, Canada, Cabin Haven
+('Benjamin', 'Jackson', '211233445', '2112334455', 113, 'Calgary', 4, 1, 13),  -- Alberta, Canada, Cabin Creekside
+('Charlotte', 'White', '322344556', '3223445566', 114, 'Ottawa', 1, 1, 14),    -- Ontario, Canada, Cabin Starlight
+('Daniel', 'Harris', '433455667', '4334556677', 115, 'Montreal', 2, 1, 15),    -- Quebec, Canada, Cabin Shadow
+('Amelia', 'Martin', '544566778', '5445667788', 116, 'Edmonton', 4, 1, 16),    -- Alberta, Canada, Cabin Foxwood
+('Lucas', 'Lee', '655677889', '6556778899', 117, 'Halifax', 7, 1, 17),         -- Nova Scotia, Canada, Cabin Riverbend
+('Mia', 'Walker', '766788990', '7667889900', 118, 'Quebec City', 2, 1, 18),    -- Quebec, Canada, Cabin Rustwood
+('Ethan', 'Perez', '877899001', '8778990011', 119, 'Winnipeg', 5, 1, 19),      -- Manitoba, Canada, Cabin Hilltop
+('Ava', 'Young', '988900112', '9889001122', 120, 'Victoria', 3, 1, 20);       -- British Columbia, Canada, Cabin Mossy
 
 
 INSERT INTO Paycheck (CouncilorID, HoursWorked, SalaryPerHour)
