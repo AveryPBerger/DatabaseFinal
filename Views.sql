@@ -18,13 +18,15 @@ ON CEC.EmergencyContactID = EC.EmergencyContactID INNER JOIN Cabin CAB
 ON C.CabinID = CAB.CabinID;
 
 -- This doesnt work i think one of the joins has to be with CamperActivty many to many table
+-- Assuming a 'Councilor' table exists with columns like 'CouncilorID', 'FirstName', 'LastName', and 'CabinID'.
+--Idk if i have 1 extra join here but this runs
 CREATE VIEW ActivityScheduler AS
 SELECT 
     CONCAT(CO.FirstName, ' ', CO.LastName) AS 'Councilor Name',
     A.ActivityName,
     CAB.CabinName
 FROM Councilor CO INNER JOIN Cabin CAB 
-ON CO.CabinID = CAB.CabinID INNER JOIN Camper C 
+ON CO.CabinID = CAB.CabinIDINNER JOIN Camper C 
 ON CAB.CabinID = C.CabinID INNER JOIN CamperActivity CA 
 ON C.CamperID = CA.CamperID INNER JOIN Activity A 
 ON CA.ActivityID = A.ActivityID;
