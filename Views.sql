@@ -41,3 +41,15 @@ SELECT
 FROM Cabin CAB INNER JOIN Councilor CO 
 ON CAB.CabinID = CO.CabinID LEFT JOIN Camper C 
 ON CAB.CabinID = C.CabinID;
+
+
+
+SELECT AllergyName 
+FROM Allergy
+WHERE AllergyID IN
+	(
+	SELECT AllergyID
+	FROM CamperAllergy
+	GROUP BY CamperID, AllergyID
+	HAVING CamperID = 1
+	)
