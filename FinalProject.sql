@@ -1,4 +1,6 @@
-
+DROP DATABASE BlueWood
+CREATE DATABASE BlueWood;
+USE BlueWood
 
 CREATE TABLE Cabin (
 	CabinID int PRIMARY KEY IDENTITY(1,1),
@@ -105,6 +107,7 @@ CREATE TABLE Paycheck (
 	PRIMARY KEY (PaycheckID,CouncilorID),
 	HoursWorked decimal(4,2)NOT NULL,
 	SalaryPerHour decimal(4,2) NOT NULL,
+	TotalPay decimal(4,2),
 	FOREIGN KEY (CouncilorID) REFERENCES Councilor(CouncilorID),
 );
 

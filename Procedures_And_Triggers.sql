@@ -1,47 +1,105 @@
 USE BlueWood;
 
--- Procedures
--- Calculates the salary of the Councilor
-CREATE PROCEDURE CalculateCouncilorSalary @hoursWorked DECIMAL(4,2) AS
-SELECT @hoursWorked * 15.75 AS 'Councilor Salary'
-RETURN;
 
--- GPT cause i couldnt figure this out, this should be changed
-CREATE PROCEDURE CabinMaxCapacity @numOfCouncilors INT AS
-BEGIN
-    DECLARE @maxCapacity INT;
-    
-    -- Calculate the maximum capacity based on the number of councilors
-    SET @maxCapacity = @numOfCouncilors * 6;
-    
-    -- Return the calculated maximum capacity
-    SELECT @maxCapacity AS 'Maxium Cabin Capacity';
+--Paycheck Procedure
 
-	RETURN @maxCapacity;
-END;
+DROP Trigger AfterPaycheckUpdate
 
--- THE INSTRUCTIONS RUIN ONE OF OUR TRIGGERS, IT HAS TO RUN BEFORE DELETE
--- Triggers
--- When Camper is inserted its ID is added to the cabin 
-
-
-CREATE TRIGGER CheckOvertimeAndCalculateSalary
-ON Paycheck
-AFTER INSERT, UPDATE
+CREATE PROCEDURE CalculateTotalPay
+    @CouncilorID INT,
+    @HoursWorked DECIMAL(4,2),
+    @TotalPay DECIMAL(10,2) OUTPUT
 AS
 BEGIN
-    -- Declare variables for hoursWorked and CouncilorID
-    DECLARE @HoursWorked DECIMAL(4, 2), @CouncilorID INT, @Salary DECIMAL(4, 2);
-    
-    -- Get the hoursWorked and CouncilorID from the inserted/updated row
-    SELECT @HoursWorked = HoursWorked, @CouncilorID = CouncilorID FROM INSERTED;
+    -- Calculate the total pay
+    SET @TotalPay = @HoursWorked * 15.75;
 
-    -- Check if hoursWorked exceeds 40
-    IF @HoursWorked > 40
-    BEGIN
-        -- Calculate salary with 1.5x multiplier
-        EXEC CalculateCouncilorSalary @HoursWorked;
-
-		--IDK what to do from here
-    END
+    -- Optionally, you can include more business logic like taxes, bonuses, etc.
+    -- For simplicity, this just calculates the base pay.
+	RETURN @TotalPay
 END;
+
+
+
+--Paycheck Trigger
+CREATE TRIGGER AfterPaycheckUpdate
+ON Paycheck
+AFTER UPDATE
+AS
+BEGIN
+    DECLARE @CouncilorID INT;
+    DECLARE @HoursWorked DECIMAL(4,2);
+    DECLARE @HourlyRate DECIMAL(4,2);
+    DECLARE @TotalPay DECIMAL(10,2);
+
+    -- Get the CouncilorID, HoursWorked, and HourlyRate from the inserted row (new data after the update)
+    SELECT 
+        @CouncilorID = CouncilorID,
+        @HoursWorked = HoursWorked
+    FROM inserted;
+
+    -- Call the procedure to calculate total pay
+    EXEC @TotalPay = CalculateTotalPay @CouncilorID, @HoursWorked, @TotalPay OUTPUT;
+
+	UPDATE Paycheck
+    SET TotalPay = @TotalPay
+    WHERE CouncilorID = @CouncilorID;
+    -- Optionally, you could update the Paycheck table with the calculated total pay if needed
+    -- UPDATE Paycheck
+    -- SET TotalPay = @TotalPay
+    -- WHERE CounselorID = @CounselorID;
+END;
+
+
+CREATE PROCEDURE GetCabinOccupancy
+    @CabinID INT
+AS
+BEGIN
+    DECLARE @Occupancy INT;
+
+    -- Retrieve the current occupancy for the cabin
+    SELECT @Occupancy = COUNT(*)
+    FROM Camper
+    WHERE CabinID = @CabinID;
+
+    -- Return the occupancy count
+    RETURN @Occupancy;
+END;
+
+CREATE TRIGGER AfterCamperInsert
+ON Camper
+AFTER INSERT
+AS
+BEGIN
+    DECLARE @CabinID INT;
+    DECLARE @Occupancy INT;
+	DECLARE @MaxCapacity INT;
+	DECLARE @NewCabinID INT;
+	DECLARE @CamperID INT;
+    -- Get the CabinID of the newly inserted camper
+
+	SELECT 
+    @CamperID = CamperID,
+    @CabinID = CabinID
+    FROM inserted;
+
+	  SELECT 
+        @MaxCapacity = MaxCapacity
+    FROM Cabin
+    WHERE CabinID = @CabinID;
+
+    -- Call the procedure to get the updated occupancy and capture the return value
+    EXEC @Occupancy = GetCabinOccupancy @CabinID;
+
+	SELECT TOP 1 @NewCabinID = CabinID
+    FROM Cabin
+    WHERE MaxCapacity > (SELECT COUNT(*) FROM Camper WHERE CabinID = Cabin.CabinID)
+
+    IF @Occupancy > @MaxCapacity
+	BEGIN
+		UPDATE Camper
+        SET CabinID = @NewCabinID
+        WHERE CamperID = @CamperID;
+	END
+END;
+
