@@ -17,22 +17,22 @@ GRANT SELECT, INSERT, UPDATE, DELETE ON dbo.CabinDetails TO Admin
 GRANT SELECT, INSERT, UPDATE, DELETE ON dbo.ActivityScheduler TO Admin
 GRANT SELECT, INSERT, UPDATE, DELETE ON dbo.CamperInfo TO Admin
 
+
+DROP ROLE Councilor
 CREATE ROLE Councilor;
 GRANT SELECT ON dbo.Camper TO Councilor;
 GRANT SELECT ON dbo.Cabin TO Councilor;
 GRANT SELECT ON dbo.Country TO Councilor;
 GRANT SELECT ON dbo.Province TO Councilor;
 GRANT SELECT ON dbo.Activity TO Councilor;
-GRANT SELECT ON dbo.Equipment TO Councilor;
-GRANT SELECT ON dbo.ActivityEquipemnt TO Councilor;
 GRANT SELECT ON dbo.CamperEmergencyContact TO Councilor;
 GRANT SELECT ON dbo.CamperActivity TO Councilor;
 GRANT SELECT ON dbo.Allergy TO Councilor;
-GRANT SELECT ON dbo.Medication TO Councilor;
 GRANT SELECT ON dbo.Paycheck TO Councilor;
 GRANT SELECT ON dbo.CabinDetails TO Admin
 GRANT SELECT ON dbo.ActivityScheduler TO Admin
 GRANT SELECT ON dbo.CamperInfo TO Admin
+
 
 CREATE ROLE EmergencyContact;
 GRANT SELECT ON dbo.EmergencyContact TO EmergencyContact;

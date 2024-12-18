@@ -91,12 +91,12 @@ BEGIN
     -- Call the procedure to get the updated occupancy and capture the return value
     EXEC @Occupancy = GetCabinOccupancy @CabinID;
 
-	SELECT TOP 1 @NewCabinID = CabinID
-    FROM Cabin
-    WHERE MaxCapacity > (SELECT COUNT(*) FROM Camper WHERE CabinID = Cabin.CabinID)
-
     IF @Occupancy > @MaxCapacity
 	BEGIN
+		SELECT TOP 1 @NewCabinID = CabinID
+		FROM Cabin
+		WHERE MaxCapacity > (SELECT COUNT(*) FROM Camper WHERE CabinID = Cabin.CabinID)
+
 		UPDATE Camper
         SET CabinID = @NewCabinID
         WHERE CamperID = @CamperID;

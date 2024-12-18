@@ -9,7 +9,9 @@ DBCC DropCleanBuffers;
 -- Finds all campers that registered before a specific date
 SELECT CamperID, FirstName, LastName, YearsAtCamp
 FROM Camper
-WHERE YearsAtCamp < 5;
+WHERE YearsAtCamp > 1
+ORDER BY YearsAtCamp
+
 
 CREATE NONCLUSTERED INDEX IX_Returning_Campers
 ON Camper (YearsAtCamp)
