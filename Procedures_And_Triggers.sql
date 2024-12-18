@@ -1,8 +1,7 @@
 USE BlueWood;
 
-
+-- Procedure 1
 --Paycheck Procedure
-
 DROP Trigger AfterPaycheckUpdate
 
 CREATE PROCEDURE CalculateTotalPay
@@ -17,8 +16,7 @@ BEGIN
 	RETURN @TotalPay
 END;
 
-
-
+-- Trigger 1
 --Paycheck Trigger
 CREATE TRIGGER AfterPaycheckUpdate
 ON Paycheck
@@ -43,26 +41,34 @@ BEGIN
 
 END;
 
+-- Procedure 2
+CREATE PROCEDURE GetCabinOccupancy
+    @CabinID INT
+AS
+BEGIN
+    DECLARE @Occupancy INT;
 
+    -- Retrieve the current occupancy for the cabin
+    SELECT @Occupancy = COUNT(*)
+    FROM Camper
+    WHERE CabinID = @CabinID;
+
+    -- Return the occupancy count
+    RETURN @Occupancy;
+END;
+
+-- Trigger 2
 CREATE TRIGGER AfterCamperDelete_CascadeActivity
 ON Camper
 AFTER DELETE
 AS
 BEGIN
-    -- Declare a variable to store the deleted CamperID
     DECLARE @CamperID INT;
 
-    -- Select the CamperID of the deleted camper from the "deleted" table
     SELECT @CamperID = CamperID
     FROM deleted;
 
-    -- Delete the activities associated with the deleted camper from CamperActivity table
     DELETE FROM CamperActivity
     WHERE CamperID = @CamperID;
 
-    -- Optionally, log the deletion of activities (if required for auditing)
-    -- INSERT INTO ActivityLog (CamperID, Action, Date)
-    -- VALUES (@CamperID, 'Deleted Camper Activities', GETDATE());
 END;
-
-
