@@ -31,6 +31,7 @@ CREATE TABLE EmergencyContact (
 	FOREIGN KEY (ProvinceID) REFERENCES Province(ProvinceID),
 	FOREIGN KEY (CountryID) REFERENCES Country(CountryID),
 );
+
 CREATE TABLE Councilor (
 	CouncilorID int PRIMARY KEY IDENTITY(1,1),
 	FirstName varchar(30) NOT NULL,
@@ -46,6 +47,7 @@ CREATE TABLE Councilor (
 	FOREIGN KEY (CountryID) REFERENCES Country(CountryID),
 	FOREIGN KEY (CabinID) REFERENCES Cabin(CabinID),
 );
+
 CREATE TABLE Activity (
 	ActivityID int PRIMARY KEY IDENTITY(1,1),
 	ActivityName varchar(100) NOT NULL UNIQUE,
@@ -53,6 +55,7 @@ CREATE TABLE Activity (
 	CouncilorID int,
 	FOREIGN KEY (CouncilorID) REFERENCES Councilor(CouncilorID)
 );
+
 CREATE TABLE Camper (
 	CamperID int PRIMARY KEY IDENTITY(1,1),
 	FirstName varchar(30) NOT NULL,
@@ -71,7 +74,6 @@ CREATE TABLE CamperEmergencyContact (
 	FOREIGN KEY (EmergencyContactID) REFERENCES EmergencyContact(EmergencyContactID),
 );
 
--- Maybe remove not null
 CREATE TABLE CamperActivity (
 	CamperID int NOT NULL,
 	ActivityID int NOT NULL,
@@ -111,7 +113,7 @@ CREATE TABLE Paycheck (
 	FOREIGN KEY (CouncilorID) REFERENCES Councilor(CouncilorID),
 );
 
-INSERT INTO Cabin(CabinName,MaxCapacity)
+INSERT INTO Cabin(CabinName, MaxCapacity)
 VALUES ('PineWood',10),('Evergreen',11),
 ('Summit',15),('Wildwood',10),
 ('Timber',12),('Cedar',14),
@@ -138,7 +140,8 @@ VALUES ('Ontario'), ('Quebec'), ('British Columbia'),
 ('Florida'), ('New York'), ('Washington'), ('Maine'), ('Alaska');
 
 
-INSERT INTO Activity (ActivityName, MaxCapacity,CouncilorID) VALUES 
+INSERT INTO Activity (ActivityName, MaxCapacity, CouncilorID) 
+VALUES 
 ('Canoeing', 15,1),('Hiking', 25,2),('Rock Climbing', 10,3),
 ('Swimming', 20,6),('Archery', 12,5),('Fishing', 8,4),
 ('Yoga', 18,7),('Crafting', 10,8),('Campfire Stories', 30,9),
@@ -414,7 +417,8 @@ VALUES
 ('Amelia', 'Young', '0123454989', 112, 'South Drive', 'Tokyo', 1, 13); -- Ontario, Japan
 
 
-INSERT INTO CamperEmergencyContact (CamperID, EmergencyContactID) VALUES
+INSERT INTO CamperEmergencyContact (CamperID, EmergencyContactID) 
+VALUES
 (1, 1), (1, 2), 
 (2, 3),           
 (3, 1), (3, 4), 
