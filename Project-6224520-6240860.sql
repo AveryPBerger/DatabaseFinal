@@ -436,6 +436,11 @@ VALUES
 
 
 -- PART 4 Database Users, Roles, Permissions, and Views
+
+--List of roles and permissions 
+--Admin - Avery and Nikolaos, full perms 
+--Councilor -User1, Select on everything but Councilor 
+--EmergencyContact -User2, Select on EmergencyContact
 CREATE LOGIN [Avery] WITH PASSWORD = 'Avery123';
 CREATE LOGIN [Nikolaos] WITH PASSWORD = 'Nikolaos123';
 CREATE LOGIN [User1] WITH PASSWORD = 'User1';
@@ -467,9 +472,9 @@ GRANT SELECT ON dbo.CamperEmergencyContact TO Councilor;
 GRANT SELECT ON dbo.CamperActivity TO Councilor;
 GRANT SELECT ON dbo.Allergy TO Councilor;
 GRANT SELECT ON dbo.Paycheck TO Councilor;
-GRANT SELECT ON dbo.CabinDetails TO Admin
-GRANT SELECT ON dbo.ActivityScheduler TO Admin
-GRANT SELECT ON dbo.CamperInfo TO Admin
+GRANT SELECT ON dbo.CabinDetails TO Councilor
+GRANT SELECT ON dbo.ActivityScheduler TO Councilor
+GRANT SELECT ON dbo.CamperInfo TO Councilor
 
 
 CREATE ROLE EmergencyContact;
