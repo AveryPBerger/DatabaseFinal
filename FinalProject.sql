@@ -140,16 +140,6 @@ VALUES ('Ontario'), ('Quebec'), ('British Columbia'),
 ('Florida'), ('New York'), ('Washington'), ('Maine'), ('Alaska');
 
 
-INSERT INTO Activity (ActivityName, MaxCapacity, CouncilorID) 
-VALUES 
-('Canoeing', 15,1),('Hiking', 25,2),('Rock Climbing', 10,3),
-('Swimming', 20,6),('Archery', 12,5),('Fishing', 8,4),
-('Yoga', 18,7),('Crafting', 10,8),('Campfire Stories', 30,9),
-('Nature Walk', 20,25),('Orienteering', 15,29),('Bird Watching', 10,10),
-('Mountain Biking', 8,22),('Star Gazing', 25,28),('Scavenger Hunt', 20,11),
-('Kayaking', 12,21),('Sailing', 15,19),('Team Building Games', 30,12),
-('Photography', 10,20),('Pottery', 8,14);
-
 
 INSERT INTO Camper (FirstName, LastName, Age, YearsAtCamp, CabinID)
 VALUES
@@ -244,6 +234,58 @@ VALUES
 (49, 10);        -- Julian Torres has Sesame allergy
 --(50, 0);         -- Addison Peterson has no allergies
 
+INSERT INTO Councilor (FirstName, LastName, [SIN], PhoneNumber, StreetNumber, City, ProvinceID, CountryID, CabinID) 
+VALUES
+('John', 'Doe', '123456789', '1234567890', 101, 'Toronto', 1, 1, 1),           -- Ontario, Canada, Cabin PineWood
+('Jane', 'Smith', '987654321', '0987654321', 102, 'Vancouver', 2, 1, 2),       -- British Columbia, Canada, Cabin Evergreen
+('Michael', 'Johnson', '111223344', '1122334455', 103, 'Calgary', 4, 1, 3),    -- Alberta, Canada, Cabin Summit
+('Emily', 'Williams', '223344556', '2233445566', 104, 'Ottawa', 1, 1, 4),       -- Ontario, Canada, Cabin Wildwood
+('David', 'Brown', '334455667', '3344556677', 105, 'Montreal', 2, 1, 5),       -- Quebec, Canada, Cabin Timber
+('Sarah', 'Davis', '445566778', '4455667788', 106, 'Edmonton', 4, 1, 6),       -- Alberta, Canada, Cabin Cedar
+('William', 'Miller', '556677889', '5566778899', 107, 'Halifax', 7, 1, 7),      -- Nova Scotia, Canada, Cabin Ridge
+('Jessica', 'Wilson', '667788990', '6677889900', 108, 'Quebec City', 2, 1, 8),  -- Quebec, Canada, Cabin Lakeside
+('Andrew', 'Moore', '778899001', '7788990011', 109, 'Winnipeg', 5, 1, 9),      -- Manitoba, Canada, Cabin Trailhead
+('Olivia', 'Taylor', '889900112', '8899001122', 110, 'Victoria', 3, 1, 10),    -- British Columbia, Canada, Cabin Meadow
+('James', 'Anderson', '990011223', '9900112233', 111, 'Toronto', 1, 1, 11),    -- Ontario, Canada, Cabin Campfire
+('Isabella', 'Thomas', '100122334', '1001223344', 112, 'Vancouver', 2, 1, 12),  -- British Columbia, Canada, Cabin Haven
+('Benjamin', 'Jackson', '211233445', '2112334455', 113, 'Calgary', 4, 1, 13),  -- Alberta, Canada, Cabin Creekside
+('Charlotte', 'White', '322344556', '3223445566', 114, 'Ottawa', 1, 1, 14),    -- Ontario, Canada, Cabin Starlight
+('Daniel', 'Harris', '433455667', '4334556677', 115, 'Montreal', 2, 1, 15),    -- Quebec, Canada, Cabin Shadow
+('Amelia', 'Martin', '544566778', '5445667788', 116, 'Edmonton', 4, 1, 16),    -- Alberta, Canada, Cabin Foxwood
+('Lucas', 'Lee', '655677889', '6556778899', 117, 'Halifax', 7, 1, 17),         -- Nova Scotia, Canada, Cabin Riverbend
+('Mia', 'Walker', '766788990', '7667889900', 118, 'Quebec City', 2, 1, 18),    -- Quebec, Canada, Cabin Rustwood
+('Ethan', 'Perez', '877899001', '8778990011', 119, 'Winnipeg', 5, 1, 19),      -- Manitoba, Canada, Cabin Hilltop
+('Ava', 'Young', '988900112', '9889001122', 120, 'Victoria', 3, 1, 20),       -- British Columbia, Canada, Cabin Mossy
+('Liam', 'Carter', '121212121', '1111111111', 201, 'Toronto', 1, 1, 1),         -- Ontario, Canada
+('Sophia', 'Robinson', '232323232', '2222222222', 202, 'Vancouver', 2, 1, 2),   -- British Columbia, Canada
+('Mason', 'Clark', '343434343', '3333333333', 203, 'Calgary', 4, 1, 3),         -- Alberta, Canada
+('Isabella', 'Lopez', '454545454', '4444444444', 204, 'Ottawa', 1, 1, 4),       -- Ontario, Canada
+('Elijah', 'Gonzalez', '565656565', '5555555555', 205, 'Montreal', 2, 1, 5),    -- Quebec, Canada
+('Harper', 'Hill', '676767676', '6666666666', 206, 'Edmonton', 4, 1, 6),        -- Alberta, Canada
+('Alexander', 'Baker', '787878787', '7777777777', 207, 'Halifax', 7, 1, 7),     -- Nova Scotia, Canada
+('Ella', 'King', '898989898', '8888888888', 208, 'Quebec City', 2, 1, 8),       -- Quebec, Canada
+('Oliver', 'Wright', '909090909', '9999999999', 209, 'Winnipeg', 5, 1, 9),      -- Manitoba, Canada
+('Avery', 'Scott', '111222333', '1010101010', 210, 'Victoria', 3, 1, 10),       -- British Columbia, Canada
+('Evelyn', 'Green', '222333444', '2020202020', 211, 'Toronto', 1, 1, 11),       -- Ontario, Canada
+('Lucas', 'Adams', '333444555', '3030303030', 212, 'Vancouver', 2, 1, 12),      -- British Columbia, Canada
+('Mila', 'Nelson', '444555666', '4040404040', 213, 'Calgary', 4, 1, 13),        -- Alberta, Canada
+('Henry', 'Cox', '555666777', '5050505050', 214, 'Ottawa', 1, 1, 14),           -- Ontario, Canada
+('Aria', 'Reed', '666777888', '6060606060', 215, 'Montreal', 2, 1, 15),         -- Quebec, Canada
+('Sebastian', 'Foster', '777888999', '7070707070', 216, 'Edmonton', 4, 1, 16),  -- Alberta, Canada
+('Madison', 'Collins', '888999000', '8080808080', 217, 'Halifax', 7, 1, 17),    -- Nova Scotia, Canada
+('Eli', 'Stewart', '999000111', '9090909090', 218, 'Quebec City', 2, 1, 18),    -- Quebec, Canada
+('Scarlett', 'Ross', '000111222', '1212121212', 219, 'Winnipeg', 5, 1, 19),     -- Manitoba, Canada
+('Logan', 'Barnes', '111222334', '1313131313', 220, 'Victoria', 3, 1, 20);      -- British Columbia, Canada
+
+INSERT INTO Activity (ActivityName, MaxCapacity, CouncilorID) 
+VALUES 
+('Canoeing', 15,1),('Hiking', 25,2),('Rock Climbing', 10,3),
+('Swimming', 20,6),('Archery', 12,5),('Fishing', 8,4),
+('Yoga', 18,7),('Crafting', 10,8),('Campfire Stories', 30,9),
+('Nature Walk', 20,25),('Orienteering', 15,29),('Bird Watching', 10,10),
+('Mountain Biking', 8,22),('Star Gazing', 25,28),('Scavenger Hunt', 20,11),
+('Kayaking', 12,21),('Sailing', 15,19),('Team Building Games', 30,12),
+('Photography', 10,20),('Pottery', 8,14);
 
 INSERT INTO CamperActivity (CamperID, ActivityID)
 VALUES
@@ -306,48 +348,6 @@ VALUES
 ('Metformin', 11), ('Prednisone', 12), ('Diazepam', 13), ('Salbutamol', 14), ('Clindamycin', 15),
 ('Lisinopril', 16), ('Furosemide', 17), ('Aspirin', 18), ('Albuterol', 19), ('Gabapentin', 20);
 
-INSERT INTO Councilor (FirstName, LastName, [SIN], PhoneNumber, StreetNumber, City, ProvinceID, CountryID, CabinID) 
-VALUES
-('John', 'Doe', '123456789', '1234567890', 101, 'Toronto', 1, 1, 1),           -- Ontario, Canada, Cabin PineWood
-('Jane', 'Smith', '987654321', '0987654321', 102, 'Vancouver', 2, 1, 2),       -- British Columbia, Canada, Cabin Evergreen
-('Michael', 'Johnson', '111223344', '1122334455', 103, 'Calgary', 4, 1, 3),    -- Alberta, Canada, Cabin Summit
-('Emily', 'Williams', '223344556', '2233445566', 104, 'Ottawa', 1, 1, 4),       -- Ontario, Canada, Cabin Wildwood
-('David', 'Brown', '334455667', '3344556677', 105, 'Montreal', 2, 1, 5),       -- Quebec, Canada, Cabin Timber
-('Sarah', 'Davis', '445566778', '4455667788', 106, 'Edmonton', 4, 1, 6),       -- Alberta, Canada, Cabin Cedar
-('William', 'Miller', '556677889', '5566778899', 107, 'Halifax', 7, 1, 7),      -- Nova Scotia, Canada, Cabin Ridge
-('Jessica', 'Wilson', '667788990', '6677889900', 108, 'Quebec City', 2, 1, 8),  -- Quebec, Canada, Cabin Lakeside
-('Andrew', 'Moore', '778899001', '7788990011', 109, 'Winnipeg', 5, 1, 9),      -- Manitoba, Canada, Cabin Trailhead
-('Olivia', 'Taylor', '889900112', '8899001122', 110, 'Victoria', 3, 1, 10),    -- British Columbia, Canada, Cabin Meadow
-('James', 'Anderson', '990011223', '9900112233', 111, 'Toronto', 1, 1, 11),    -- Ontario, Canada, Cabin Campfire
-('Isabella', 'Thomas', '100122334', '1001223344', 112, 'Vancouver', 2, 1, 12),  -- British Columbia, Canada, Cabin Haven
-('Benjamin', 'Jackson', '211233445', '2112334455', 113, 'Calgary', 4, 1, 13),  -- Alberta, Canada, Cabin Creekside
-('Charlotte', 'White', '322344556', '3223445566', 114, 'Ottawa', 1, 1, 14),    -- Ontario, Canada, Cabin Starlight
-('Daniel', 'Harris', '433455667', '4334556677', 115, 'Montreal', 2, 1, 15),    -- Quebec, Canada, Cabin Shadow
-('Amelia', 'Martin', '544566778', '5445667788', 116, 'Edmonton', 4, 1, 16),    -- Alberta, Canada, Cabin Foxwood
-('Lucas', 'Lee', '655677889', '6556778899', 117, 'Halifax', 7, 1, 17),         -- Nova Scotia, Canada, Cabin Riverbend
-('Mia', 'Walker', '766788990', '7667889900', 118, 'Quebec City', 2, 1, 18),    -- Quebec, Canada, Cabin Rustwood
-('Ethan', 'Perez', '877899001', '8778990011', 119, 'Winnipeg', 5, 1, 19),      -- Manitoba, Canada, Cabin Hilltop
-('Ava', 'Young', '988900112', '9889001122', 120, 'Victoria', 3, 1, 20),       -- British Columbia, Canada, Cabin Mossy
-('Liam', 'Carter', '121212121', '1111111111', 201, 'Toronto', 1, 1, 1),         -- Ontario, Canada
-('Sophia', 'Robinson', '232323232', '2222222222', 202, 'Vancouver', 2, 1, 2),   -- British Columbia, Canada
-('Mason', 'Clark', '343434343', '3333333333', 203, 'Calgary', 4, 1, 3),         -- Alberta, Canada
-('Isabella', 'Lopez', '454545454', '4444444444', 204, 'Ottawa', 1, 1, 4),       -- Ontario, Canada
-('Elijah', 'Gonzalez', '565656565', '5555555555', 205, 'Montreal', 2, 1, 5),    -- Quebec, Canada
-('Harper', 'Hill', '676767676', '6666666666', 206, 'Edmonton', 4, 1, 6),        -- Alberta, Canada
-('Alexander', 'Baker', '787878787', '7777777777', 207, 'Halifax', 7, 1, 7),     -- Nova Scotia, Canada
-('Ella', 'King', '898989898', '8888888888', 208, 'Quebec City', 2, 1, 8),       -- Quebec, Canada
-('Oliver', 'Wright', '909090909', '9999999999', 209, 'Winnipeg', 5, 1, 9),      -- Manitoba, Canada
-('Avery', 'Scott', '111222333', '1010101010', 210, 'Victoria', 3, 1, 10),       -- British Columbia, Canada
-('Evelyn', 'Green', '222333444', '2020202020', 211, 'Toronto', 1, 1, 11),       -- Ontario, Canada
-('Lucas', 'Adams', '333444555', '3030303030', 212, 'Vancouver', 2, 1, 12),      -- British Columbia, Canada
-('Mila', 'Nelson', '444555666', '4040404040', 213, 'Calgary', 4, 1, 13),        -- Alberta, Canada
-('Henry', 'Cox', '555666777', '5050505050', 214, 'Ottawa', 1, 1, 14),           -- Ontario, Canada
-('Aria', 'Reed', '666777888', '6060606060', 215, 'Montreal', 2, 1, 15),         -- Quebec, Canada
-('Sebastian', 'Foster', '777888999', '7070707070', 216, 'Edmonton', 4, 1, 16),  -- Alberta, Canada
-('Madison', 'Collins', '888999000', '8080808080', 217, 'Halifax', 7, 1, 17),    -- Nova Scotia, Canada
-('Eli', 'Stewart', '999000111', '9090909090', 218, 'Quebec City', 2, 1, 18),    -- Quebec, Canada
-('Scarlett', 'Ross', '000111222', '1212121212', 219, 'Winnipeg', 5, 1, 19),     -- Manitoba, Canada
-('Logan', 'Barnes', '111222334', '1313131313', 220, 'Victoria', 3, 1, 20);      -- British Columbia, Canada
 
 
 INSERT INTO Paycheck (CouncilorID, HoursWorked, SalaryPerHour)

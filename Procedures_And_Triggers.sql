@@ -11,11 +11,9 @@ CREATE PROCEDURE CalculateTotalPay
     @TotalPay DECIMAL(10,2) OUTPUT
 AS
 BEGIN
-    -- Calculate the total pay
+
     SET @TotalPay = @HoursWorked * 15.75;
 
-    -- Optionally, you can include more business logic like taxes, bonuses, etc.
-    -- For simplicity, this just calculates the base pay.
 	RETURN @TotalPay
 END;
 
@@ -32,74 +30,39 @@ BEGIN
     DECLARE @HourlyRate DECIMAL(4,2);
     DECLARE @TotalPay DECIMAL(10,2);
 
-    -- Get the CouncilorID, HoursWorked, and HourlyRate from the inserted row (new data after the update)
     SELECT 
         @CouncilorID = CouncilorID,
         @HoursWorked = HoursWorked
     FROM inserted;
 
-    -- Call the procedure to calculate total pay
     EXEC @TotalPay = CalculateTotalPay @CouncilorID, @HoursWorked, @TotalPay OUTPUT;
 
 	UPDATE Paycheck
     SET TotalPay = @TotalPay
     WHERE CouncilorID = @CouncilorID;
-    -- Optionally, you could update the Paycheck table with the calculated total pay if needed
-    -- UPDATE Paycheck
-    -- SET TotalPay = @TotalPay
-    -- WHERE CounselorID = @CounselorID;
+
 END;
 
 
-CREATE PROCEDURE GetCabinOccupancy
-    @CabinID INT
-AS
-BEGIN
-    DECLARE @Occupancy INT;
-
-    -- Retrieve the current occupancy for the cabin
-    SELECT @Occupancy = COUNT(*)
-    FROM Camper
-    WHERE CabinID = @CabinID;
-
-    -- Return the occupancy count
-    RETURN @Occupancy;
-END;
-
-CREATE TRIGGER AfterCamperInsert
+CREATE TRIGGER AfterCamperDelete_CascadeActivity
 ON Camper
-AFTER INSERT
+AFTER DELETE
 AS
 BEGIN
-    DECLARE @CabinID INT;
-    DECLARE @Occupancy INT;
-	DECLARE @MaxCapacity INT;
-	DECLARE @NewCabinID INT;
-	DECLARE @CamperID INT;
-    -- Get the CabinID of the newly inserted camper
+    -- Declare a variable to store the deleted CamperID
+    DECLARE @CamperID INT;
 
-	SELECT 
-    @CamperID = CamperID,
-    @CabinID = CabinID
-    FROM inserted;
+    -- Select the CamperID of the deleted camper from the "deleted" table
+    SELECT @CamperID = CamperID
+    FROM deleted;
 
-	  SELECT 
-        @MaxCapacity = MaxCapacity
-    FROM Cabin
-    WHERE CabinID = @CabinID;
+    -- Delete the activities associated with the deleted camper from CamperActivity table
+    DELETE FROM CamperActivity
+    WHERE CamperID = @CamperID;
 
-    -- Call the procedure to get the updated occupancy and capture the return value
-    EXEC @Occupancy = GetCabinOccupancy @CabinID;
-
-    IF @Occupancy > @MaxCapacity
-	BEGIN
-		SELECT TOP 1 @NewCabinID = CabinID
-		FROM Cabin
-		WHERE MaxCapacity > (SELECT COUNT(*) FROM Camper WHERE CabinID = Cabin.CabinID)
-
-		UPDATE Camper
-        SET CabinID = @NewCabinID
-        WHERE CamperID = @CamperID;
-	END
+    -- Optionally, log the deletion of activities (if required for auditing)
+    -- INSERT INTO ActivityLog (CamperID, Action, Date)
+    -- VALUES (@CamperID, 'Deleted Camper Activities', GETDATE());
 END;
+
 
