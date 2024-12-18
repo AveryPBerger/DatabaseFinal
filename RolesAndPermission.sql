@@ -36,4 +36,3 @@ EXEC sp_addrolemember 'Admin', 'Avery';
 EXEC sp_addrolemember 'Admin', 'Nikolaos';
 EXEC sp_addrolemember 'Councilor', 'User1';
 EXEC sp_addrolemember 'EmergencyContact', 'User2';
-

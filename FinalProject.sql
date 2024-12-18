@@ -1,6 +1,4 @@
-DROP DATABASE BlueWood;
-CREATE DATABASE BlueWood;
-USE BlueWood;
+
 
 CREATE TABLE Cabin (
 	CabinID int PRIMARY KEY IDENTITY(1,1),
@@ -18,28 +16,6 @@ CREATE TABLE Province (
 	ProvinceName varchar(60) NOT NULL,
 );
 
-CREATE TABLE Activity (
-	ActivityID int PRIMARY KEY IDENTITY(1,1),
-	ActivityName varchar(100) NOT NULL UNIQUE,
-	MaxCapacity tinyint NOT NULL,
-);
-
-CREATE TABLE Equipment (
-	EquipmentID int PRIMARY KEY IDENTITY(1,1),
-	EquipmentName varchar(100) NOT NULL,
-	Quality varchar(10) NOT NULL,
-	EquipmentDescription varchar(200),
-	YearOFPurchase date,
-);
-
-CREATE TABLE ActivityEquipemnt (
-	EquipmentID int NOT NULL,
-	ActivityId int NOT NULL,
-	PRIMARY KEY (EquipmentID, ActivityId),
-	FOREIGN KEY (EquipmentID) REFERENCES Equipment(EquipmentID),
-	FOREIGN KEY (ActivityId) REFERENCES Activity(ActivityId),
-);
-
 CREATE TABLE EmergencyContact (
 	EmergencyContactID int PRIMARY KEY IDENTITY(1,1),
 	FirstName varchar(30) NOT NULL,
@@ -53,7 +29,28 @@ CREATE TABLE EmergencyContact (
 	FOREIGN KEY (ProvinceID) REFERENCES Province(ProvinceID),
 	FOREIGN KEY (CountryID) REFERENCES Country(CountryID),
 );
-
+CREATE TABLE Councilor (
+	CouncilorID int PRIMARY KEY IDENTITY(1,1),
+	FirstName varchar(30) NOT NULL,
+	LastName varchar(30) NOT NULL,
+	[SIN] char(9) NOT NULL UNIQUE,
+	PhoneNumber char(10) NOT NULL UNIQUE,
+	StreetNumber smallint NOT NULL, 
+	City varchar(50) NOT NULL, 
+	ProvinceID int NOT NULL,
+	CountryID int NOT NULL,
+	CabinID int,
+	FOREIGN KEY (ProvinceID) REFERENCES Province(ProvinceID),
+	FOREIGN KEY (CountryID) REFERENCES Country(CountryID),
+	FOREIGN KEY (CabinID) REFERENCES Cabin(CabinID),
+);
+CREATE TABLE Activity (
+	ActivityID int PRIMARY KEY IDENTITY(1,1),
+	ActivityName varchar(100) NOT NULL UNIQUE,
+	MaxCapacity tinyint NOT NULL,
+	CouncilorID int,
+	FOREIGN KEY (CouncilorID) REFERENCES Councilor(CouncilorID)
+);
 CREATE TABLE Camper (
 	CamperID int PRIMARY KEY IDENTITY(1,1),
 	FirstName varchar(30) NOT NULL,
@@ -101,21 +98,6 @@ CREATE TABLE Medication (
 	FOREIGN KEY (CamperID) REFERENCES Camper(CamperID),
 );
 
-CREATE TABLE Councilor (
-	CouncilorID int PRIMARY KEY IDENTITY(1,1),
-	FirstName varchar(30) NOT NULL,
-	LastName varchar(30) NOT NULL,
-	[SIN] char(9) NOT NULL UNIQUE,
-	PhoneNumber char(10) NOT NULL UNIQUE,
-	StreetNumber smallint NOT NULL, 
-	City varchar(50) NOT NULL, 
-	ProvinceID int NOT NULL,
-	CountryID int NOT NULL,
-	CabinID int NOT NULL,
-	FOREIGN KEY (ProvinceID) REFERENCES Province(ProvinceID),
-	FOREIGN KEY (CountryID) REFERENCES Country(CountryID),
-	FOREIGN KEY (CabinID) REFERENCES Cabin(CabinID),
-);
 
 CREATE TABLE Paycheck (
 	PaycheckID int IDENTITY(1,1), 
@@ -153,37 +135,15 @@ VALUES ('Ontario'), ('Quebec'), ('British Columbia'),
 ('Florida'), ('New York'), ('Washington'), ('Maine'), ('Alaska');
 
 
-INSERT INTO Activity (ActivityName, MaxCapacity) VALUES 
-('Canoeing', 15),('Hiking', 25),('Rock Climbing', 10),
-('Swimming', 20),('Archery', 12),('Fishing', 8),
-('Yoga', 18),('Crafting', 10),('Campfire Stories', 30),
-('Nature Walk', 20),('Orienteering', 15),('Bird Watching', 10),
-('Mountain Biking', 8),('Star Gazing', 25),('Scavenger Hunt', 20),
-('Kayaking', 12),('Sailing', 15),('Team Building Games', 30),
-('Photography', 10),('Pottery', 8);
+INSERT INTO Activity (ActivityName, MaxCapacity,CouncilorID) VALUES 
+('Canoeing', 15,1),('Hiking', 25,2),('Rock Climbing', 10,3),
+('Swimming', 20,6),('Archery', 12,5),('Fishing', 8,4),
+('Yoga', 18,7),('Crafting', 10,8),('Campfire Stories', 30,9),
+('Nature Walk', 20,25),('Orienteering', 15,29),('Bird Watching', 10,10),
+('Mountain Biking', 8,22),('Star Gazing', 25,28),('Scavenger Hunt', 20,11),
+('Kayaking', 12,21),('Sailing', 15,19),('Team Building Games', 30,12),
+('Photography', 10,20),('Pottery', 8,14);
 
-
-INSERT INTO Equipment (EquipmentName, Quality, EquipmentDescription, YearOfPurchase) VALUES 
-('Life Jacket', 'High', 'Standard flotation device for water activities.', '2020-05-10'),
-('Helmet', 'Medium', 'Protective headgear for climbing and biking.', '2019-07-15'),
-('Fishing Rod', 'High', 'Lightweight fishing rod.', '2021-03-22'),
-('Tent', 'High', 'Waterproof camping tent.', '2018-11-02'),
-('Compass', 'Medium', 'Magnetic compass for navigation.', '2020-08-17'),
-('Camera', 'High', 'DSLR camera for photography.', '2022-01-10'),
-('Paddle', 'High', 'Carbon fiber kayak paddle.', '2021-06-05'),
-('Bow and Arrow', 'Medium', 'Recreational archery set.', '2020-04-14'),
-('Climbing Rope', 'High', 'Heavy-duty rope for climbing.', '2019-09-19'),
-('Yoga Mats', 'High', 'Non-slip yoga mats.', '2022-03-12'),
-('Fishing Net', 'Medium', 'Nylon fishing net.', '2021-10-25'),
-('Mountain Bike', 'High', 'All-terrain bike.', '2020-12-11'),
-('Flashlights', 'Medium', 'LED flashlights for night use.', '2019-05-04'),
-('Cooking Set', 'High', 'Portable cooking equipment.', '2022-06-18'),
-('Binoculars', 'High', 'Magnification optics for bird watching.', '2020-02-20'),
-('Pottery Wheel', 'High', 'Electric pottery wheel.', '2021-08-29'),
-('Sailing Kit', 'Medium', 'Basic sailing toolkit.', '2022-07-03'),
-('Star Chart', 'Medium', 'Astronomy guide.', '2021-01-21'),
-('Campfire Tools', 'High', 'Fire starters and utensils.', '2020-10-15'),
-('Hiking Poles', 'Medium', 'Adjustable trekking poles.', '2021-12-09');
 
 INSERT INTO Camper (FirstName, LastName, Age, YearsAtCamp, CabinID)
 VALUES
@@ -426,3 +386,45 @@ VALUES
 (38, 40.00, 15.25), 
 (39, 42.50, 16.50), 
 (40, 39.50, 15.75);
+
+INSERT INTO EmergencyContact (FirstName, LastName, PhoneNumber, CivicNumber, StreetName, City, ProvinceID, CountryID)
+VALUES 
+('John', 'Smith', '1234567890', 101, 'Maple Street', 'Toronto', 1, 1), -- Ontario, Canada
+('Jane', 'Doe', '2345678901', 202, 'Oak Avenue', 'Vancouver', 3, 1), -- British Columbia, Canada
+('Michael', 'Brown', '3456789012', 303, 'Pine Road', 'Montreal', 2, 1), -- Quebec, Canada
+('Sarah', 'Johnson', '4567890123', 404, 'Birch Lane', 'Calgary', 4, 1), -- Alberta, Canada
+('David', 'Lee', '5678901234', 505, 'Cedar Drive', 'Winnipeg', 5, 1), -- Manitoba, Canada
+('Emily', 'Davis', '6789012345', 606, 'Spruce Street', 'Los Angeles', 14, 2), -- California, United States
+('Chris', 'Miller', '7890123456', 707, 'Elm Street', 'Dallas', 15, 2), -- Texas, United States
+('Olivia', 'Wilson', '8901234567', 808, 'Ash Road', 'New York City', 17, 2), -- New York, United States
+('Sophia', 'Martinez', '9012345678', 909, 'Willow Lane', 'Miami', 16, 2), -- Florida, United States
+('James', 'Anderson', '0123456789', 110, 'Poplar Drive', 'Seattle', 18, 2), -- Washington, United States
+('Linda', 'Thompson', '1234509876', 210, 'Main Street', 'Paris', 1, 4), -- Ontario, France
+('Henry', 'Garcia', '2345609871', 310, 'King Road', 'Berlin', 1, 5), -- Ontario, Germany
+('Mason', 'Lopez', '3456709872', 410, 'Queen Avenue', 'Madrid', 1, 7), -- Ontario, Spain
+('Isabella', 'Gonzalez', '4567809873', 510, 'Prince Street', 'Rome', 1, 6), -- Ontario, Italy
+('Alexander', 'Scott', '5678909874', 610, 'Duke Road', 'Sydney', 1, 8), -- Ontario, Australia
+('Chloe', 'Walker', '6789010985', 710, 'Smith Lane', 'Mumbai', 1, 9), -- Ontario, India
+('Benjamin', 'Harris', '7890121986', 810, 'West Street', 'Shanghai', 1, 10), -- Ontario, China
+('Evelyn', 'Carter', '8901232987', 910, 'East Avenue', 'Rio de Janeiro', 1, 11), -- Ontario, Brazil
+('Lucas', 'Clark', '9012343988', 111, 'North Road', 'Cape Town', 1, 12), -- Ontario, South Africa
+('Amelia', 'Young', '0123454989', 112, 'South Drive', 'Tokyo', 1, 13); -- Ontario, Japan
+
+
+INSERT INTO CamperEmergencyContact (CamperID, EmergencyContactID) VALUES
+(1, 1), (1, 2), 
+(2, 3),           
+(3, 1), (3, 4), 
+(4, 5),           
+(5, 6), (5, 7), 
+(6, 8),           
+(7, 9),           
+(8, 10), (8, 11), 
+(9, 12),           
+(10,13),          
+(11,14),          
+(12,15),          
+(13,16), (13, 17), 
+(14,18),          
+(15,19),          
+(16,20);
